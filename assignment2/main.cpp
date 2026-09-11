@@ -9,12 +9,13 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <queue>
 #include <set>
 #include <string>
 #include <unordered_set>
 
-std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
+std::string kYourName = "John Cat"; // Don't forget to change this!
 
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
@@ -28,7 +29,13 @@ std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
  * to also change the corresponding functions in `utils.h`.
  */
 std::set<std::string> get_applicants(std::string filename) {
-  // STUDENT TODO: Implement this function.
+  std::ifstream ifile(filename);
+  std::string name;
+  std::set<std::string> s;
+  while (std::getline(ifile, name)) {
+    s.insert(name);
+  }
+  return s;
 }
 
 /**
@@ -39,8 +46,30 @@ std::set<std::string> get_applicants(std::string filename) {
  * @param students  The set of student names.
  * @return          A queue containing pointers to each matching name.
  */
+
+bool is_match(char c1, char c2, std::string student_name) {
+  std::stringstream ss(student_name);
+  std::string first, second;
+  ss >> first >> second;
+  if (c1 == first[0] && c2 == second[0]) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 std::queue<const std::string*> find_matches(std::string name, std::set<std::string>& students) {
   // STUDENT TODO: Implement this function.
+  std::string first, second;
+  std::queue<const std::string*> q;
+  std::stringstream ss(name);
+  ss >> first >> second;
+  for (auto &student_name : students) {
+    if (is_match(first[0], second[0], student_name)) {
+      q.push(&student_name);
+    }
+  }
+  return q;
 }
 
 /**
@@ -55,6 +84,14 @@ std::queue<const std::string*> find_matches(std::string name, std::set<std::stri
  */
 std::string get_match(std::queue<const std::string*>& matches) {
   // STUDENT TODO: Implement this function.
+  const std::string LoveName = "John";
+  while (!matches.empty()) {
+    if (matches.front()->find(LoveName)) {
+      return *matches.front();
+    }
+    matches.pop();
+  }
+  return "NO MATCHES FOUND.";
 }
 
 /* #### Please don't remove this line! #### */
