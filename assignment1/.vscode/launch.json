@@ -1,22 +1,19 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) 启动",
+            "name": "Debug main",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/main",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "lldb"
+            "MIMode": "lldb",
+            "miDebuggerPath": "${userHome}/.cursor/extensions/kylinideteam.cppdebug-0.4.0-darwin-arm64/dist/debugAdapter/lldb-mi/bin/lldb-mi",
+            "preLaunchTask": "build debug"
         }
-
-
     ]
 }
