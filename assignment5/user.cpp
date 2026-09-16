@@ -1,4 +1,5 @@
 #include "user.h"
+#include <valarray>
 
 /**
  * Creates a new User with the given name and no friends.
@@ -60,6 +61,48 @@ void User::set_friend(size_t index, const std::string& name)
 }
 
 /** 
- * STUDENT TODO:
  * The definitions for your custom operators and special member functions will go here!
  */
+std::ostream& operator<< (std::ostream& out, const User& user) {
+  out << "User(name=" << user._name << ", friends=[";
+  if (user.size() > 0) {
+    out << *user._friends;
+    for (int i = 1; i < user.size(); ++i) {
+      out << ", " << user._friends[i];
+    }
+  }
+  out << "])";
+  return out;
+}
+
+User::~User() {
+  delete [] _friends;
+}
+
+User& User::operator=(const User& user) {
+  this->_name = user._name;
+  delete [] _friends;
+  _size = 0;
+  _capacity = 0;
+  _friends = nullptr;
+  for (int i = 0; i < user.size(); ++i) {
+    add_friend(user._friends[i]);
+  }
+  return *this;
+}
+
+User& User::operator+=(User& rhs) {
+  this->add_friend(rhs.get_name());
+  rhs.add_friend(this->get_name());
+  return *this;
+}
+
+bool User::operator<(const User& rhs) const {
+  return this->get_name() < rhs.get_name();
+}
+
+User::User(const User& user) : _name(user._name), _size(0), _capacity(0), _friends(nullptr) {
+  for(size_t i = 0; i < user.size(); ++i) {
+    this->add_friend(user._friends[i]);
+  }
+}
